@@ -92,7 +92,7 @@ describe("Create Statement", () => {
     expect(statement.type).toBe(createStatementRequestData.type);
   });
 
-  it("should not be able to create a new statement due to user not found", async () => {
+  it("should not be able to create a new statement due to user not being found", async () => {
     const createStatementRequestData: ICreateStatementDTO = {
       user_id: "fake-id",
       description: "fake-description",
