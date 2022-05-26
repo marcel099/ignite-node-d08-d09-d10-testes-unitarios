@@ -57,7 +57,7 @@ describe("Create Statement", () => {
     expect(statement.type).toBe(createStatementRequestData.type);
   });
 
-  it("should be able to create a new withdraw statement", async () => {
+  it("should be able to create a new withdraw statement only if there are enough funds", async () => {
     await createStatementUseCase.execute({
       user_id: userId,
       description: "fake-deposit-description",
