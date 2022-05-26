@@ -40,14 +40,14 @@ describe("Get Balance", () => {
   });
 
   it("should be able to get the correct balance having 2 deposit statements", async () => {
-    const depositStatement1CreateData = {
+    const depositStatement1CreationData = {
       description: "fake-description-1",
       amount: 100,
       type: OperationType.DEPOSIT,
       user_id: userId,
     };
 
-    const depositStatement2CreateData = {
+    const depositStatement2CreationData = {
       description: "fake-description-2",
       amount: 150,
       type: OperationType.DEPOSIT,
@@ -55,10 +55,10 @@ describe("Get Balance", () => {
     };
 
     const depositStatement1 = await inMemoryStatementsRepository.create(
-      depositStatement1CreateData
+      depositStatement1CreationData
     );
     const depositStatement2 = await inMemoryStatementsRepository.create(
-      depositStatement2CreateData
+      depositStatement2CreationData
     );
 
     const balanceResponse = await getBalanceUseCase.execute({ user_id: userId });
@@ -73,14 +73,14 @@ describe("Get Balance", () => {
   });
 
   it("should be able to get the correct balance having 1 deposit e 1 withdraw statements", async () => {
-    const depositStatementCreateData = {
+    const depositStatementCreationData = {
       description: "fake-description-1",
       amount: 300,
       type: OperationType.DEPOSIT,
       user_id: userId,
     };
 
-    const withdrawStatementCreateData = {
+    const withdrawStatementCreationData = {
       description: "fake-description-2",
       amount: 200,
       type: OperationType.WITHDRAW,
@@ -88,10 +88,10 @@ describe("Get Balance", () => {
     };
 
     const depositStatement = await inMemoryStatementsRepository.create(
-      depositStatementCreateData
+      depositStatementCreationData
     );
     const withdrawStatement = await inMemoryStatementsRepository.create(
-      withdrawStatementCreateData
+      withdrawStatementCreationData
     );
 
     const balanceResponse = await getBalanceUseCase.execute({ user_id: userId });

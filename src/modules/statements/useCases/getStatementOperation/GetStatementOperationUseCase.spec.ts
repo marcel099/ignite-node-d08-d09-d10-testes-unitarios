@@ -30,7 +30,7 @@ describe("Get Statement Operation", () => {
   });
 
   it("should be able to get a statement operation", async () => {
-    const depositStatementCreateData = {
+    const depositStatementCreationData = {
       description: "fake-description-1",
       amount: 300,
       type: OperationType.DEPOSIT,
@@ -38,7 +38,7 @@ describe("Get Statement Operation", () => {
     };
 
     const depositStatement = await inMemoryStatementsRepository.create(
-      depositStatementCreateData
+      depositStatementCreationData
     );
 
     const statementOperation = await getStatementOperationUseCase.execute({
@@ -63,7 +63,7 @@ describe("Get Statement Operation", () => {
   });
 
   it("should not be able to get a statement operation due to user not being found", async () => {
-    const depositStatementCreateData = {
+    const depositStatementCreationData = {
       description: "fake-description-1",
       amount: 300,
       type: OperationType.DEPOSIT,
@@ -71,7 +71,7 @@ describe("Get Statement Operation", () => {
     };
 
     const depositStatement = await inMemoryStatementsRepository.create(
-      depositStatementCreateData
+      depositStatementCreationData
     );
 
     expect(
