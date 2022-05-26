@@ -13,6 +13,12 @@ let signMocked: jest.SpyInstance;
 
 const tokenValue = "fake-token";
 
+const userCreationData = {
+  name: 'test-name',
+  email: "test@test.com",
+  password: "fake-password",
+};
+
 describe("Authenticate User", () => {
   beforeEach(() => {
     inMemoryUsersRepository = new InMemoryUsersRepository();
@@ -30,18 +36,12 @@ describe("Authenticate User", () => {
   });
 
   it("should be able to authenticate a user and return a token in response", async () => {
-    const userCreationData = {
-      name: 'test-name',
-      email: "test@test.com",
-      password: "fake-password",
-    };
+    await inMemoryUsersRepository.create(userCreationData);
 
     const userAuthenticationData = {
       email: userCreationData.email,
       password: userCreationData.password,
     };
-    
-    await inMemoryUsersRepository.create(userCreationData);
 
     const authenticationData = await authenticateUserUseCase.execute(userAuthenticationData);
 
@@ -64,13 +64,13 @@ describe("Authenticate User", () => {
   });
 
   it("should not be able to authenticate a user that doesn't exist", async () => {
-    const userData = {
-      email: "test@test.com",
-      password: "fake-password",
-    }
+    const userAuthenticationData = {
+      email: userCreationData.email,
+      password: userCreationData.password,
+    };
 
     expect(
-      authenticateUserUseCase.execute(userData)
+      authenticateUserUseCase.execute(userAuthenticationData)
     ).rejects.toEqual(new IncorrectEmailOrPasswordError());
   });
 
@@ -79,13 +79,15 @@ describe("Authenticate User", () => {
       () => Promise.resolve(false)
     );
 
-    const userData = {
-      email: "test@test.com",
-      password: "fake-password",
-    }
+    await inMemoryUsersRepository.create(userCreationData);
+
+    const userAuthenticationData = {
+      email: userCreationData.email,
+      password: userCreationData.password,
+    };
 
     expect(
-      authenticateUserUseCase.execute(userData)
+      authenticateUserUseCase.execute(userAuthenticationData)
     ).rejects.toEqual(new IncorrectEmailOrPasswordError());
   });
 });
