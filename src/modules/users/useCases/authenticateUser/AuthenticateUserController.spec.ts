@@ -62,8 +62,7 @@ describe("Authenticate User Controller", () => {
     const incorrectEmailOrPasswordError =
       new IncorrectEmailOrPasswordError();
 
-    expect(response.statusCode)
-      .toBe(incorrectEmailOrPasswordError.statusCode);
+    expect(response.statusCode).toBe(401);
     expect(responseErrorMessage)
       .toBe(incorrectEmailOrPasswordError.message);
   });
@@ -82,8 +81,7 @@ describe("Authenticate User Controller", () => {
     const incorrectEmailOrPasswordError =
       new IncorrectEmailOrPasswordError();
 
-    expect(response.statusCode)
-      .toBe(incorrectEmailOrPasswordError.statusCode);
+    expect(response.statusCode).toBe(401);
     expect(responseErrorMessage)
       .toBe(incorrectEmailOrPasswordError.message);
   });

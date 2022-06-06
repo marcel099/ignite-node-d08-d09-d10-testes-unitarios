@@ -35,9 +35,7 @@ describe("Create User Controller", () => {
     const responseErrorMessage = JSON.parse(response?.text).message;
     const createUserError = new CreateUserError();
 
-    expect(response.statusCode)
-      .toBe(createUserError.statusCode);
-    expect(responseErrorMessage)
-      .toBe(createUserError.message);
+    expect(response.statusCode).toBe(400);
+    expect(responseErrorMessage).toBe(createUserError.message);
   });
 })
