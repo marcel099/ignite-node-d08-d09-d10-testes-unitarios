@@ -3,15 +3,10 @@ import { Connection } from "typeorm";
 
 import { app } from "../../../../app";
 import createConnection from "../../../../database";
+import { userCreationData } from "../../../../shared/infra/database/typeorm/createUser";
 import { CreateUserError } from "./CreateUserError";
 
 let connection: Connection;
-
-const userCreationData = {
-  name: "test-name",
-  email: "test@test.com",
-  password: "fake-password",
-};
 
 describe("Create User Controller", () => {
   beforeAll(async () => {
@@ -38,9 +33,11 @@ describe("Create User Controller", () => {
       .send(userCreationData);
 
     const responseErrorMessage = JSON.parse(response?.text).message;
-    const createUserErrorMessage = new CreateUserError().message;
-    
-    expect(response.status).toBe(400);
-    expect(responseErrorMessage).toBe(createUserErrorMessage)
+    const createUserError = new CreateUserError();
+
+    expect(response.statusCode)
+      .toBe(createUserError.statusCode);
+    expect(responseErrorMessage)
+      .toBe(createUserError.message);
   });
 })
