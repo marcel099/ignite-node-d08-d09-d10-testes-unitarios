@@ -58,7 +58,7 @@ describe("Authenticate User Controller", () => {
       .post("/api/v1/sessions")
       .send(sessionCreationData);
 
-    const responseErrorMessage = JSON.parse(response?.text).message;
+    const responseErrorMessage = response.body.message;
     const incorrectEmailOrPasswordError =
       new IncorrectEmailOrPasswordError();
 
@@ -77,7 +77,7 @@ describe("Authenticate User Controller", () => {
       .post("/api/v1/sessions")
       .send(sessionCreationData);
 
-    const responseErrorMessage = JSON.parse(response?.text).message;
+    const responseErrorMessage = response.body.message;
     const incorrectEmailOrPasswordError =
       new IncorrectEmailOrPasswordError();
 

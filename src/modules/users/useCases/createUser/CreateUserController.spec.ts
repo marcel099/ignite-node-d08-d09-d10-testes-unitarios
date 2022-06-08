@@ -32,7 +32,7 @@ describe("Create User Controller", () => {
       .post("/api/v1/users")
       .send(userCreationData);
 
-    const responseErrorMessage = JSON.parse(response?.text).message;
+    const responseErrorMessage = response.body.message;
     const createUserError = new CreateUserError();
 
     expect(response.statusCode).toBe(400);

@@ -112,7 +112,7 @@ describe("Create Statement Controller", () => {
       })
       .send(statementCreationData);
 
-    const responseErrorMessage = JSON.parse(response?.text).message;
+    const responseErrorMessage = response.body.message;
     const insufficientFunds = new CreateStatementError.InsufficientFunds();
     
     expect(response.statusCode).toBe(400);
