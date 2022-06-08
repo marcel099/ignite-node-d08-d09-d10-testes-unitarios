@@ -3,10 +3,8 @@ import { Connection } from "typeorm";
 import { app } from "../../../../app";
 
 import createConnection from "../../../../database";
-import { createInvalidSessionToken } from "../../../../shared/infra/database/typeorm/createInvalidSessionToken";
 import { userCreationData, createUser } from "../../../../shared/infra/database/typeorm/createUser";
 import { createUserSession } from "../../../../shared/infra/database/typeorm/createUserSession";
-import { ShowUserProfileError } from "./ShowUserProfileError";
 
 let connection: Connection, token: string;
 
