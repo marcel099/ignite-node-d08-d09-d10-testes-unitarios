@@ -23,7 +23,7 @@ describe("Create User", () => {
     );
   });
 
-  it("should be able to create an user", async () => {    
+  it("should be able to create a user", async () => {    
     const userCreationData = {
       name: "test-name",
       email: "test@test.com",
@@ -47,7 +47,7 @@ describe("Create User", () => {
     expect(hashMocked).toHaveBeenCalled();
   });
 
-  it("should not be able to create an user if another user with the same email already exists", async () => {
+  it("should not be able to create a user if another user with the same email already exists", async () => {
     const user1CreationData = {
       name: "test-name-1",
       email: "repeated_test_email@test.com",
