@@ -33,6 +33,8 @@ export class GetStatementOperationUseCase {
         throw new GetStatementOperationError.StatementNotFound();
       }
 
+      statementOperation.amount = Number(statementOperation.amount);
+
       return statementOperation;
   }
 }
