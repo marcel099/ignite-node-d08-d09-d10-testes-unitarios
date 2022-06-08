@@ -1,7 +1,7 @@
 import request from "supertest";
 import { Connection } from "typeorm";
-import { app } from "../../../../app";
 
+import { app } from "../../../../app";
 import createConnection from "../../../../database";
 import { createUser } from "../../../../shared/infra/database/typeorm/createUser";
 import { createUserSession } from "../../../../shared/infra/database/typeorm/createUserSession";
@@ -34,7 +34,7 @@ describe("Create Statement Controller", () => {
     const response = await request(app)
       .post("/api/v1/statements/deposit")
       .set({
-        Authorization: `bearer ${token}`
+        authorization: `bearer ${token}`
       })
       .send(statementCreationData);
 
@@ -71,7 +71,7 @@ describe("Create Statement Controller", () => {
     const response = await request(app)
       .post("/api/v1/statements/withdraw")
       .set({
-        Authorization: `bearer ${token}`
+        authorization: `bearer ${token}`
       })
       .send(statementCreationData);
 
@@ -108,7 +108,7 @@ describe("Create Statement Controller", () => {
     const response = await request(app)
       .post("/api/v1/statements/withdraw")
       .set({
-        Authorization: `Bearer ${token}`,
+        authorization: `bearer ${token}`,
       })
       .send(statementCreationData);
 

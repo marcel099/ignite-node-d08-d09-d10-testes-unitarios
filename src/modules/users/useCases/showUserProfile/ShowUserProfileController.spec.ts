@@ -27,7 +27,7 @@ describe("Show User Profile Controller", () => {
     const response = await request(app)
       .get("/api/v1/profile")
       .set({
-        Authorization: `bearer ${token}`
+        authorization: `bearer ${token}`
       });
     
     expect(response.statusCode).toBe(200);
@@ -47,15 +47,4 @@ describe("Show User Profile Controller", () => {
     expect(response.body).toHaveProperty("updated_at");
     expect(response.body.updated_at).toBeTruthy();
   });
-
-  // todo Colocar isso em um arquivo de teste do middleware ensureAuthenticated
-  // it("should not be able to get a user profile with an invalid token", async () => {
-  //   const response = await request(app)
-  //     .get("/api/v1/profile")
-  //     .set({
-  //       Authorization: `bearer invalid_token`
-  //     });
-
-  //   expect(response.statusCode).toBe(401);
-  // });
 });

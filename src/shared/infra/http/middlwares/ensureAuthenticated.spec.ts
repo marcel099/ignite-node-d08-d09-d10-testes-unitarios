@@ -40,13 +40,13 @@ describe("Ensure Authenticated middleware", () => {
   });
 
   it("should not be able to call the next function if JWT token is missing", async () => {
-    const requestWithoutAuthorization = {
+    const requestWithoutauthorization = {
       headers: {}
     } as Request;
 
     await expect(
       ensureAuthenticated(
-        requestWithoutAuthorization,
+        requestWithoutauthorization,
         response,
         nextMock as unknown as NextFunction
       )
