@@ -2,18 +2,24 @@ import { hash } from "bcryptjs";
 import { Connection } from "typeorm";
 import { v4 as uuidV4} from "uuid";
 
-export const userCreationData = {
+export const defaultUserCreationData = {
   name: "test-name",
   email: "test@test.com",
   password: "test-password",
 };
 
-export async function createUser(connection: Connection) {
+interface UserCreationData {
+  name: string;
+  email: string; 
+  password: string;
+}
+
+export async function createUser(connection: Connection, userCreationData?: UserCreationData) {
   const {
     name,
     email,
     password
-  } = userCreationData;
+  } = userCreationData ?? defaultUserCreationData;
 
   const id = uuidV4();
   const hashedPassword = await hash(password, 8);
