@@ -3,6 +3,7 @@ import { Connection } from "typeorm";
 
 import { app } from "../../../../app";
 import createConnection from "../../../../database";
+import { createRecipientUser } from "../../../../shared/infra/database/typeorm/createRecipientUser";
 import { createUser } from "../../../../shared/infra/database/typeorm/createUser";
 import { createUserSession } from "../../../../shared/infra/database/typeorm/createUserSession";
 import { User } from "../../../users/entities/User";
@@ -11,26 +12,6 @@ import { CreateStatementError } from "./CreateStatementError";
 let connection: Connection;
 let token: string;
 let recipient_user: User;
-
-async function createRecipientUser(): Promise<User> {
-  const recipientUserCreationData = {
-    name: "recipient-test-name",
-    email: "recipient-test@test.com",
-    password: "fake-password",
-  }
-
-  await createUser(connection, recipientUserCreationData);
-
-  const queryResponse = await connection.query(`
-    SELECT *
-    FROM users
-    WHERE users.email = '${recipientUserCreationData.email}';
-  `);
-
-  const user = queryResponse[0];
-
-  return user;
-}
 
 describe("Create Statement Controller", () => {
   beforeAll(async () => {
@@ -122,7 +103,7 @@ describe("Create Statement Controller", () => {
   });
 
   it("should be able to create a new transfer statement only if there are enough funds", async () => {
-    recipient_user = await createRecipientUser();
+    recipient_user = await createRecipientUser(connection);
 
     const statementCreationData = {
       amount: 70,

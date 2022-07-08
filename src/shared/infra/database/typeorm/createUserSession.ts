@@ -4,11 +4,14 @@ import { Connection } from "typeorm";
 import authConfig from '../../../../config/auth';
 import { defaultUserCreationData } from "./createUser";
 
-export async function createUserSession(connection: Connection) {
+export async function createUserSession(
+  connection: Connection,
+  userEmail?: string
+) {
   const queryResponse = await connection.query(`
     SELECT *
     FROM users
-    WHERE email = '${defaultUserCreationData.email}';
+    WHERE email = '${userEmail ?? defaultUserCreationData.email}';
   `);
 
   const user = queryResponse[0];
