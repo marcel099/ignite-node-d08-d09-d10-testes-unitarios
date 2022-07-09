@@ -9,15 +9,7 @@ export async function createRecipientUser(connection: Connection): Promise<User>
     password: "fake-password",
   }
 
-  await createUser(connection, recipientUserCreationData);
-
-  const queryResponse = await connection.query(`
-    SELECT *
-    FROM users
-    WHERE users.email = '${recipientUserCreationData.email}';
-  `);
-
-  const user = queryResponse[0];
+  const user = await createUser(connection, recipientUserCreationData);
 
   return user;
 }

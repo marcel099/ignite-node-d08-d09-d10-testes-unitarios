@@ -1,6 +1,7 @@
 import { hash } from "bcryptjs";
 import { Connection } from "typeorm";
 import { v4 as uuidV4} from "uuid";
+import { User } from "../../../../modules/users/entities/User";
 
 export const defaultUserCreationData = {
   name: "test-name",
@@ -14,7 +15,7 @@ interface UserCreationData {
   password: string;
 }
 
-export async function createUser(connection: Connection, userCreationData?: UserCreationData) {
+export async function createUser(connection: Connection, userCreationData?: UserCreationData): Promise<User> {
   const {
     name,
     email,
@@ -28,4 +29,14 @@ export async function createUser(connection: Connection, userCreationData?: User
     INSERT INTO users(id, name, email, password, created_at, updated_at)
     VALUES('${id}', '${name}', '${email}', '${hashedPassword}', now(), now());
   `);
+
+  const queryResponse = await connection.query(`
+    SELECT *
+    FROM users
+    WHERE users.email = '${email}';
+  `);
+
+  const user = queryResponse[0];
+
+  return user;
 }
