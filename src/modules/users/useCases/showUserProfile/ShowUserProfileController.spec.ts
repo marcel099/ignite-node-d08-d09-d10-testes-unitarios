@@ -3,7 +3,7 @@ import { Connection } from "typeorm";
 import { app } from "../../../../app";
 
 import createConnection from "../../../../database";
-import { userCreationData, createUser } from "../../../../shared/infra/database/typeorm/createUser";
+import { defaultUserCreationData, createUser } from "../../../../shared/infra/database/typeorm/createUser";
 import { createUserSession } from "../../../../shared/infra/database/typeorm/createUserSession";
 
 let connection: Connection, token: string;
@@ -36,10 +36,10 @@ describe("Show User Profile Controller", () => {
     expect(response.body.id).toBeTruthy();
 
     expect(response.body).toHaveProperty("name");
-    expect(response.body.name).toBe(userCreationData.name);
+    expect(response.body.name).toBe(defaultUserCreationData.name);
 
     expect(response.body).toHaveProperty("email");
-    expect(response.body.email).toBe(userCreationData.email);
+    expect(response.body.email).toBe(defaultUserCreationData.email);
 
     expect(response.body).toHaveProperty("created_at");
     expect(response.body.created_at).toBeTruthy();

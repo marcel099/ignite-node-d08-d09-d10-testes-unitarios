@@ -29,19 +29,35 @@ export class InMemoryStatementsRepository implements IStatementsRepository {
       { balance: number } | { balance: number, statement: Statement[] }
     >
   {
-    const statement = this.statements.filter(operation => operation.user_id === user_id);
+    const userStatements = this.statements.filter(operation =>
+      operation.user_id === user_id || operation.sender_id === user_id
+    );
 
-    const balance = statement.reduce((acc, operation) => {
-      if (operation.type === 'deposit') {
-        return acc + operation.amount;
+    const userStatementsBalance = userStatements.reduce((acc, operation) => {
+      if (operation.user_id === user_id) {
+        if (operation.type === 'deposit' || operation.type === 'transfer') {
+          return acc + operation.amount;
+        } else {
+          return acc - operation.amount;
+        }
       } else {
-        return acc - operation.amount;
+        return acc;
       }
     }, 0)
 
+    const sentTransfersBalance = userStatements.reduce((acc, operation) => {
+      if (operation.sender_id === user_id) {
+        return acc + operation.amount;
+      } else {
+        return acc;
+      }
+    }, 0)
+
+    const balance = userStatementsBalance - sentTransfersBalance;
+
     if (with_statement) {
       return {
-        statement,
+        statement: userStatements,
         balance
       }
     }

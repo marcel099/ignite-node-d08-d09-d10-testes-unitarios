@@ -92,6 +92,51 @@ describe("Create Statement", () => {
     expect(statement.type).toBe(createStatementRequestData.type);
   });
 
+  it("should be able to create a new transfer statement only if there are enough funds", async () => {
+    const recipientUser = await inMemoryUsersRepository.create({
+      name: "recipient-test-name",
+      email: "recipient-test@test.com",
+      password: "fake-password",
+    })
+
+    await createStatementUseCase.execute({
+      user_id: userId,
+      description: "fake-deposit-description",
+      amount: 250,
+      type: OperationType.DEPOSIT,
+    });
+
+    const createStatementRequestData: ICreateStatementDTO = {
+      user_id: recipientUser.id ?? "",
+      sender_id: userId,
+      description: "fake-transfer-description",
+      amount: 100,
+      type: OperationType.TRANSFER,
+    };
+
+    const statement = await createStatementUseCase.execute(
+      createStatementRequestData
+    );
+
+    expect(statement).toHaveProperty("id");
+    expect(statement.id).toBeTruthy();
+
+    expect(statement).toHaveProperty("user_id");
+    expect(statement.user_id).toBe(recipientUser.id);
+
+    expect(statement).toHaveProperty("sender_id");
+    expect(statement.sender_id).toBe(userId);
+
+    expect(statement).toHaveProperty("description");
+    expect(statement.description).toBe(createStatementRequestData.description);
+
+    expect(statement).toHaveProperty("amount");
+    expect(statement.amount).toBe(createStatementRequestData.amount);
+
+    expect(statement).toHaveProperty("type");
+    expect(statement.type).toBe(createStatementRequestData.type);
+  });
+
   it("should not be able to create a new statement due to user not being found", async () => {
     const createStatementRequestData: ICreateStatementDTO = {
       user_id: "fake-id",
@@ -111,6 +156,26 @@ describe("Create Statement", () => {
       description: "fake-description",
       amount: 200,
       type: OperationType.WITHDRAW,
+    };
+
+    await expect(
+      createStatementUseCase.execute(createStatementRequestData)
+    ).rejects.toEqual(new CreateStatementError.InsufficientFunds());
+  });
+
+  it("should not be able to create a new transfer statement due to insufficient funds", async () => {
+    const recipientUser = await inMemoryUsersRepository.create({
+      name: "recipient-test-name",
+      email: "recipient-test@test.com",
+      password: "fake-password",
+    })
+
+    const createStatementRequestData: ICreateStatementDTO = {
+      user_id: recipientUser.id ?? "",
+      sender_id: userId,
+      description: "fake-description",
+      amount: 200,
+      type: OperationType.TRANSFER,
     };
 
     await expect(
