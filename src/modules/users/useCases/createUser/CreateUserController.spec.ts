@@ -3,7 +3,7 @@ import { Connection } from "typeorm";
 
 import { app } from "../../../../app";
 import createConnection from "../../../../database";
-import { userCreationData } from "../../../../shared/infra/database/typeorm/createUser";
+import { defaultUserCreationData } from "../../../../shared/infra/database/typeorm/createUser";
 import { CreateUserError } from "./CreateUserError";
 
 let connection: Connection;
@@ -22,7 +22,7 @@ describe("Create User Controller", () => {
   it("should be able to create a user", async () => {
     const response = await request(app)
       .post("/api/v1/users")
-      .send(userCreationData);
+      .send(defaultUserCreationData);
 
     expect(response.status).toBe(201);
   });
@@ -30,7 +30,7 @@ describe("Create User Controller", () => {
   it("should not be able to create a user if another user with the same email already exists", async () => {
     const response = await request(app)
       .post("/api/v1/users")
-      .send(userCreationData);
+      .send(defaultUserCreationData);
 
     const responseErrorMessage = response.body.message;
     const createUserError = new CreateUserError();
